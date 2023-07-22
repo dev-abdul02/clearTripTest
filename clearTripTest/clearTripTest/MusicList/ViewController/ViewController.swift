@@ -50,8 +50,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         //navigate to music list
         
         let musicPlayer = MusicPlayer()
-        let selctedTrack = viewModel.musicListModel[indexPath.row]
-        let vieModel = MusicPlayerViewModel(musicTrack: selctedTrack)
+        let allTrack = viewModel.musicListModel
+        let vieModel = MusicPlayerViewModel(musicTrack: allTrack, playingIndex: indexPath.row)
         musicPlayer.viewModel = vieModel
         self.present(musicPlayer, animated: true)
     }

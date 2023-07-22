@@ -9,9 +9,18 @@ import Foundation
 
 class MusicPlayerViewModel {
     
-    var currentTrack:MusicListModel?
+    var tracks:[MusicListModel]?
+    var currentPlayingIndex:Int = 0
     
-    init(musicTrack:MusicListModel) {
-        currentTrack = musicTrack
+    init(musicTrack:[MusicListModel], playingIndex:Int) {
+        tracks = musicTrack
+        currentPlayingIndex = playingIndex
+    }
+    
+    func getCurrentTrack() -> MusicListModel? {
+        if let track = tracks?[currentPlayingIndex] {
+            return track
+        }
+        return nil
     }
 }

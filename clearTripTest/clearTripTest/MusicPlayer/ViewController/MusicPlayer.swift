@@ -35,12 +35,15 @@ class MusicPlayer: UIViewController {
     }
     
     fileprivate func configureUI() {
-        if let imagename = viewModel?.currentTrack?.album {
-            ivMusicImageView.image = UIImage(named: imagename)
+        if let currentPlayingData = viewModel?.tracks?[viewModel?.currentPlayingIndex ?? 0] {
+             let imagename = currentPlayingData.album
+             ivMusicImageView.image = UIImage(named: imagename)
+            
+
+            lMusicTitleLabel.text = currentPlayingData.title
+            lMusicSubtitleLabel.text = currentPlayingData.artist
         }
 
-        lMusicTitleLabel.text = viewModel?.currentTrack?.title
-        lMusicSubtitleLabel.text = viewModel?.currentTrack?.artist
         
         sVolumeSlider.minimumValue = 0
         sVolumeSlider.maximumValue = 10
@@ -107,12 +110,24 @@ extension MusicPlayer {
     }
     
     @objc func nextButtonAction(_ sender: UIButton?) {
-        print("tapped button")
+        //todo manage out of index
+        stopAndReset()
+        let currentIndex =  viewModel?.currentPlayingIndex ?? 0
+        viewModel?.currentPlayingIndex = (currentIndex ) + 1
+        configureUI()
+        setupAudioPlayer()
     }
     
     @objc func previousButtonAction(_ sender: UIButton?) {
-        print("tapped button")
+        //todo manage negative
+        stopAndReset()
+        let currentIndex =  viewModel?.currentPlayingIndex ?? 0
+        viewModel?.currentPlayingIndex = currentIndex - 1
+        configureUI()
+        setupAudioPlayer()
     }
+    
+    
     @objc func playButtonAction(_ sender: UIButton?) {
         if let audioPlayer = audioPlayer {
             if audioPlayer.isPlaying {
